@@ -15,6 +15,24 @@ function get_$_GET() {
     return ($_GET)
 }
 
+
+function read_text(file_name) {
+
+    var result = "";
+    $.ajax({
+        url: 'read_text.php',
+        type: 'POST',
+        data: {file_name:file_name},
+		dataType: 'text',
+        async: false,
+        success: function (data) {
+            result = data;
+        }
+    });
+    return result;
+
+}
+
 $(document).ready(on_doc_load());
 
 function on_doc_load() {
@@ -27,7 +45,29 @@ function on_doc_load() {
             e.preventDefault();
         }
     });
+	
+	//read in the bird image list
+	bird_list_file_name = 'Lists/bird_list.txt';
+	bird_list = read_text(bird_list_file_name);
+    
+    //read in the word list
+	word_list_file_name = 'Lists/word_list.txt';
+    word_list = read_text(word_list_file_name);
 
+    //convert the character string to a 
+	//character array
+    bird_list = bird_list.split('\n');
+    word_list = word_list.split('\n');
+
+    /*
+    //it is also possible to convert the
+	//character array to an integer array
+    
+    var list = [];
+    for (i = 0; i < list_str.length; i++) {
+        list[i] = parseInt(list_str[i]);
+    }
+    */
 
 	//make instructions
     instructions = new Message();
@@ -54,14 +94,14 @@ function on_doc_load() {
 	//make a list of images
     var img1 = new Img();
     img1.time = 'inf';
-    img1.list = ['Content/bird0.jpg', 'Content/bird1.jpg'];
+    img1.list = bird_list;
     img1.height = 300;
     img1.width = 300;
     img1.allowed_responses = [1, 0];
 
 	//make a list of text items
     var txt = new Text();
-    txt.list = ['Boat','Train','Car']
+    txt.list = word_list;
     txt.allowed_responses = [1, 0];
 
 	//make an isi of 1500ms

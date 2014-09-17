@@ -1,0 +1,3 @@
+Content/bird0.jpg
+Content/bird1.jpg
+Content/bird2.jpg

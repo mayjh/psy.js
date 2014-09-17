@@ -1,5 +1,4 @@
 <?php
-	//write the data to file
 
 require_once '../../../wp-config.php';
 global $wpdb;
@@ -10,12 +9,11 @@ $user_ID=$current_user->ID;
 
 try{
 	if(isset($_POST['filelocation']) && isset($_POST['partial']) && isset($_POST['exp_data'])){
-	   
-	   $ip='123';//$_SERVER['REMOTE_ADDR'];    //get the ip address
+	   $ip= $_SERVER['REMOTE_ADDR']; 
 	   $useragent=$_SERVER['HTTP_USER_AGENT']; //get the browser information
 	   $ran=date("ymd_His");				   //get the date
 	   //make a file name with relevant info
-	   $filename=$_POST['filelocation']."recog"."_".$ran."_".$ip."_".$user_ID.".json"; 
+	   $filename=$_POST['filelocation']."_".$ran."_".$user_ID.".json"; 
 	   $exppart_id = $_POST['exppart_id'];		//get the participant id
 	   $partsession_id = $_POST['partsession_id'];//get the session
 	   $session = $_POST['session'];
