@@ -33,6 +33,24 @@ function read_text(file_name) {
 
 }
 
+
+function get_subj_num() {
+
+    var result = "";
+    $.ajax({
+        type: 'POST',
+        url: 'next_subj.php',
+        dataType: 'text',
+        async: false,
+        success: function (data) {
+            result = data;
+        }
+    });
+    return result;
+
+
+}
+
 $(document).ready(on_doc_load());
 
 function on_doc_load() {
