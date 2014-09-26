@@ -23,7 +23,7 @@ Data_Handler = (function () {
                 //there is no capability to distinguish between upper and lowercase responses at this time
 
                 //if the response is in the allowed_response array return true
-                if (!$.inArray(response, allowed_responses) || !$.inArray(lower_case, allowed_responses)) {
+                if ($.inArray(response, allowed_responses) >= 0 || $.inArray(lower_case, allowed_responses)>=0) {
                     $(document).off('keydown');//turn off the keydown event listener
                     data['rt'].push(rt);//record rt
                     data['response'].push(response);//record response
