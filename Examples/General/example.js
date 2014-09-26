@@ -29,12 +29,12 @@ function on_doc_load() {
     });
 
     //read in the bird image list
-    var bird_list_file_name = 'Lists/bird_list.txt';
-    var bird_list = read_text(bird_list_file_name);
+    bird_list_file_name = 'Lists/bird_list.txt';
+    bird_list = read_text(bird_list_file_name);
 
     //read in the word list
-    var word_list_file_name = 'Lists/word_list.txt';
-    var word_list = read_text(word_list_file_name);
+    word_list_file_name = 'Lists/word_list.txt';
+    word_list = read_text(word_list_file_name);
 
     //convert the character string to a 
     //character array
@@ -66,7 +66,6 @@ function on_doc_load() {
     img1.height = 300;
     img1.width = 300;
     img1.allowed_responses = [1, 0];
-    img1.preload();
 
     var txt = new Text();
     txt.list = word_list;

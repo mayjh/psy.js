@@ -47,12 +47,12 @@ function on_doc_load() {
     });
 	
 	//read in the bird image list
-	var bird_list_file_name = 'Lists/bird_list.txt';
-	var bird_list = read_text(bird_list_file_name);
+	bird_list_file_name = 'Lists/bird_list.txt';
+	bird_list = read_text(bird_list_file_name);
     
     //read in the word list
-	var word_list_file_name = 'Lists/word_list.txt';
-    var word_list = read_text(word_list_file_name);
+	word_list_file_name = 'Lists/word_list.txt';
+    word_list = read_text(word_list_file_name);
 
     //convert the character string to a 
 	//character array
@@ -70,7 +70,7 @@ function on_doc_load() {
     */
 
 	//make instructions
-    var instructions = new Message();
+    instructions = new Message();
     instructions.text = "Press 1 or 0 to proceed through stimuli.";
     instructions.header = 'Welcome!';
     instructions.button = true;
@@ -98,7 +98,6 @@ function on_doc_load() {
     img1.height = 300;
     img1.width = 300;
     img1.allowed_responses = [1, 0];
-    img1.preload();//images must be preloaded
 
 	//make a list of text items
     var txt = new Text();
@@ -119,7 +118,7 @@ function on_doc_load() {
     block1.list_length = 2;
 
 	//make an upload object
-    var upload = new Uploader();
+    upload = new Uploader();
     $_GET = get_$_GET();//get subject parameters
     upload.data.partial = 'false';
     upload.data.exppart_id = $_GET['exppart_id'];
