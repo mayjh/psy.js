@@ -15,11 +15,15 @@ Data_Handler = (function () {
             
             $(document).keydown(function (event) {
                 
-                var response = event.keyCode || event.which; //get the response		
+                var response = event.which; //get the response key code
+                lower_case = String.fromCharCode(response + 32);//this gives the lowercase key code of the response
                 response = String.fromCharCode(response); //convert to character
                 var rt = (new Date).getTime() - start; //get the reaction time                
-                
-                if(response in allowed_responses){
+                //since the keydown event handler will always return the uppercase key code of the character
+                //there is no capability to distinguish between upper and lowercase responses at this time
+
+                //if the response is in the allowed_response array return true
+                if (!$.inArray(response, allowed_responses) || !$.inArray(lower_case, allowed_responses)) {
                     $(document).off('keydown');//turn off the keydown event listener
                     data['rt'].push(rt);//record rt
                     data['response'].push(response);//record response
@@ -29,9 +33,6 @@ Data_Handler = (function () {
         });
     }
 
-
-    
-	
 
     return {
         data: data,
