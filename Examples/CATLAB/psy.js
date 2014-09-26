@@ -1,4 +1,6 @@
-﻿
+﻿/// <reference path="spin.min.js" />
+/// <reference path="C:\wamp\www\experiment\wp-content\uploads\ExperimentWizard\ExperimentWizard\spin.min.js" />
+
 Data_Handler = (function () {
 	
     var data = { response: [], rt: [], properties: {} };
@@ -13,11 +15,15 @@ Data_Handler = (function () {
             
             $(document).keydown(function (event) {
                 
-                var response = event.keyCode || event.which; //get the response		
+                var response = event.which; //get the response key code
+                lower_case = String.fromCharCode(response + 32);//this gives the lowercase key code of the response
                 response = String.fromCharCode(response); //convert to character
                 var rt = (new Date).getTime() - start; //get the reaction time                
-                
-                if(response in allowed_responses){
+                //since the keydown event handler will always return the uppercase key code of the character
+                //there is no capability to distinguish between upper and lowercase responses at this time
+
+                //if the response is in the allowed_response array return true
+                if ($.inArray(response, allowed_responses) >= 0 || $.inArray(lower_case, allowed_responses)>=0) {
                     $(document).off('keydown');//turn off the keydown event listener
                     data['rt'].push(rt);//record rt
                     data['response'].push(response);//record response
@@ -27,9 +33,6 @@ Data_Handler = (function () {
         });
     }
 
-
-    
-	
 
     return {
         data: data,
@@ -139,10 +142,22 @@ function Img() {
     this.width = null;
     this.allowed_responses = null;
     this.time = null;
+    this.preloaded_images = null;
+
+ 
 
 }
 
 Img.prototype = {
+
+    preload: function (){
+        this.preloaded_images = [];
+        for (i = 0, length = this.list.length; i < length; ++i) {
+            this.preloaded_images[i] = new Image();
+            this.preloaded_images[i].src = this.list[i];
+        }
+    },
+
     erase: function (element) {
         //get the feedback container
         var parent_node = document.getElementById(element).parentNode;
@@ -150,13 +165,6 @@ Img.prototype = {
         //remove the feedback container
         parent_node.removeChild(document.getElementById(element));
     },
-
-    preloader: function (src) {
-        var img = new Image();
-        img.src = src;
-        return img;
-    },
-
 
     show_image: function () {
         
@@ -166,8 +174,7 @@ Img.prototype = {
         
         //add the container to the document
         $('#exp_container').append(image_container);
-        var stimulus = new Image(); //need to implement a preloader
-        stimulus.src = this.list[Data_Handler.trial_num];
+        var stimulus = this.preloaded_images[Data_Handler.trial_num];
         stimulus.width = this.width;
         stimulus.height = this.height;
         stimulus.id = this.css_id.image;
@@ -188,15 +195,14 @@ Img.prototype = {
             }, _this.time);
         });
     },
+ 
+    run: function () {
 
-  
-   run:  function() {
-
-       var _this = this;
-
-       return new Promise(function (resolve_fn, reject_fn) {
+        var _this = this;
+        
+        return new Promise(function (resolve_fn, reject_fn) {
          
-           if (_this.time !== null && _this.time !== 'inf') {//timed stimulus
+            if (_this.time !== null && _this.time !== 'inf') {//timed stimulus
        
                 _this.timed_image()
                 .then(resolve_fn);        
@@ -204,23 +210,25 @@ Img.prototype = {
 
             } else {
 
-               //show the image
-               _this.show_image();       
+                //show the image
+                _this.show_image();       
                
-               Data_Handler.get_response(_this.allowed_responses)
-                .then(function () {
+                Data_Handler.get_response(_this.allowed_responses)
+                 .then(function () {
 
-                //erase image
-                Img.prototype.erase(_this.css_id.image_container);             
-                resolve_fn();
+                     //erase image
+                     Img.prototype.erase(_this.css_id.image_container);             
+                     resolve_fn();
 
-                });
+                 });
             }
         });
     }
 
 
 };
+
+
 
 function Message(){
    

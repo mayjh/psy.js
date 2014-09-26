@@ -98,6 +98,7 @@ function on_doc_load() {
     img1.height = 300;
     img1.width = 300;
     img1.allowed_responses = [1, 0];
+    img1.preload();
 
 	//make a list of text items
     var txt = new Text();

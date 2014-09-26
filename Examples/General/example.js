@@ -66,6 +66,7 @@ function on_doc_load() {
     img1.height = 300;
     img1.width = 300;
     img1.allowed_responses = [1, 0];
+    img1.preload();
 
     var txt = new Text();
     txt.list = word_list;
